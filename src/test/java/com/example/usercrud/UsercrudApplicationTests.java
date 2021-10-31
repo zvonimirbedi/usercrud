@@ -2,7 +2,10 @@ package com.example.usercrud;
 
 import com.example.usercrud.dto.UserDto;
 import com.example.usercrud.model.User;
+import org.junit.jupiter.api.MethodOrderer;
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
@@ -12,6 +15,7 @@ import org.springframework.http.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @SpringBootTest(webEnvironment= SpringBootTest.WebEnvironment.RANDOM_PORT)
 class UsercrudApplicationTests {
 
@@ -25,6 +29,7 @@ class UsercrudApplicationTests {
 	}
 
 	@Test
+	@Order(1)
 	public void createUserWithDescription(){
 		UserDto newUser = new UserDto(
 				"username",
@@ -42,6 +47,7 @@ class UsercrudApplicationTests {
 
 
 	@Test
+	@Order(2)
 	public void createUserWithoutDescription(){
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(MediaType.APPLICATION_JSON);
@@ -61,6 +67,7 @@ class UsercrudApplicationTests {
 	}
 
 	@Test
+	@Order(3)
 	public void updateUser(){
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(MediaType.APPLICATION_JSON);
@@ -81,6 +88,7 @@ class UsercrudApplicationTests {
 	}
 
 	@Test
+	@Order(4)
 	public void deleteUser(){
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(MediaType.APPLICATION_JSON);
@@ -93,6 +101,7 @@ class UsercrudApplicationTests {
 	}
 
 	@Test
+	@Order(5)
 	public void getAllUser(){
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(MediaType.APPLICATION_JSON);
@@ -101,11 +110,12 @@ class UsercrudApplicationTests {
 				.getForEntity(createURLWithPort("/users"), User[].class);
 		System.out.println(response.getStatusCode());
 		System.out.println(response.getBody());
-		assertThat(response.getBody().length , equalTo(5));
+		assertThat(response.getBody().length , equalTo(4));
 	}
 
 
 	@Test
+	@Order(6)
 	public void mixTest(){
 		UserDto newDtoUser = new UserDto(
 				"username",
@@ -138,7 +148,6 @@ class UsercrudApplicationTests {
 		User user = responseUpdate.getBody();
 		assertThat(newUser, equalTo(user));
 
-
 		ResponseEntity<String> responseDelete = restTemplate.withBasicAuth("user1","user1pass")
 				.exchange(createURLWithPort("/users/" + 2), HttpMethod.DELETE,  null , String.class);
 		System.out.println(responseDelete.getStatusCode());
@@ -150,7 +159,7 @@ class UsercrudApplicationTests {
 				.getForEntity(createURLWithPort("/users"), User[].class);
 		System.out.println(responseGetAll.getStatusCode());
 		System.out.println(responseGetAll.getBody());
-		assertThat(responseGetAll.getBody().length , equalTo(5));
+		assertThat(responseGetAll.getBody().length , equalTo(4));
 
 	}
 

@@ -9,7 +9,7 @@ import java.util.Collection;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Integer> {
-    @Query(value = "SELECT * FROM users", nativeQuery = true)
+    @Query(value = "SELECT id, first_name, last_name, username, age, description FROM users", nativeQuery = true)
     Collection<User> getAll();
 
 }
