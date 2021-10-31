@@ -1,0 +1,15 @@
+server:
+  port: ${POST:8080}
+spring:
+  profiles:
+    active: dev
+    include: dev
+  application:
+    name: ${APP_NAME:usercrud-service}
+
+logging:
+  level:
+    org:
+      springframework: ${SB_FW_LOG_LEVEL:INFO}
+      springframework.web: ${SB_WEB_LOG_LEVEL:INFO}
+    root: ${ROOT_LOG_LEVEL:INFO}

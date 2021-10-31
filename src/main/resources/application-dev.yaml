@@ -1,0 +1,16 @@
+spring:
+  profiles: dev
+  datasource:
+    url: jdbc:h2:mem:database_users;DB_CLOSE_DELAY=-1
+    username: spring_boot_user
+    password: spring_boot_password
+    driverClassName: org.h2.Driver
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+      web-allow-others: false
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    hibernate:
+      ddl-auto: none
